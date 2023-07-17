@@ -1,0 +1,29 @@
+# Use postgres/example user/password credentials
+version: '3.1'
+
+networks:
+  production-network:
+    driver:
+      bridge
+
+services:
+
+  postgres13:
+    image: postgres:13
+    healthcheck:
+      test: "exit 0"
+    mem_limit: 256m
+    cpus: 0.5
+    environment:
+      POSTGRES_PASSWORD: postgres
+      
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./_db/init.sql:/docker-entrypoint-initdb.d/create_db.sql
+    ports:
+      - 5432:5432
+    networks:
+      - production-network
+    
+volumes:
+  db-data:
