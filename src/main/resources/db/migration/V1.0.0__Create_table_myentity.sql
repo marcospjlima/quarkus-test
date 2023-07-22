@@ -10,3 +10,6 @@ CREATE TABLE public.myentity
 
 ALTER TABLE IF EXISTS public.myentity
     OWNER to postgres;
+    
+    
+CREATE SEQUENCE IF NOT EXISTS public.myentity_seq START 1;

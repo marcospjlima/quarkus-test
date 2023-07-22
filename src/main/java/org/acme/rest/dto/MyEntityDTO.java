@@ -1,10 +1,17 @@
 package org.acme.rest.dto;
 
 import org.acme.MyEntity;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(value = { "id"}, allowGetters = true)
 public class MyEntityDTO {
 	
+	@Schema(readOnly = true)
 	private Long id;	
+	
+	
 	private String field;
 	
 	public MyEntityDTO() {}
@@ -16,10 +23,6 @@ public class MyEntityDTO {
 	
 	public Long getId() {
 		return id;
-	}
-	
-	public void setId(Long id) {
-		this.id = id;
 	}
 	
 	public String getField() {
