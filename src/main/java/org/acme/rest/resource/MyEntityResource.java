@@ -1,6 +1,7 @@
 package org.acme.rest.resource;
 
 import org.acme.MyEntity;
+import org.acme.paginacao.ElementosPaginados;
 import org.acme.rest.dto.MyEntityDTO;
 import org.acme.service.MyEntityService;
 import org.apache.http.HttpStatus;
@@ -17,11 +18,14 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import jakarta.inject.Inject;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -60,6 +64,22 @@ public class MyEntityResource {
     }
     
     
+    @GET
+    @Path("todosEntity/{pagina}/{qtdPorPagina}")
+    @Operation(summary = "Busca e lista todos MyEntity com paginação")
+    @APIResponses(value = {
+            @APIResponse(responseCode = "200", description = "Lista de MyEntity que foram localizados e retornado com sucesso", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = ElementosPaginados.class))),
+            @APIResponse(responseCode = "400", description = "Parâmentros de paginação inválidos", content = @Content(mediaType = MediaType.APPLICATION_JSON)),
+            @APIResponse(responseCode = "500", description = "Erro interno do sistema")
+    })
+    public ElementosPaginados<MyEntity> buscarTodos(
+    		@PathParam("pagina") @Parameter(required = true, description = "Página consultada", example = "0")
+            @PositiveOrZero(message = "Página não pode ser negativa") final Integer pagina,
+            @PathParam("qtdPorPagina") @Parameter(required = true, description = "Número de registros por página", example = "10")
+            @Positive(message = "Tamanho da página não pode ser 0 ou negativa") final Integer qtdPorPagina) {
+        return myEntityService.buscarTodos(pagina, qtdPorPagina);
+    }
+    
     @DELETE
     @Path("{id}")
     @Operation(summary = "Excluir MyEntity pelo ID.")
@@ -90,4 +110,26 @@ public class MyEntityResource {
     	
     	return Response.status(HttpStatus.SC_CREATED).entity(dto).build();
     }
+    /*
+    @PUT
+    @Path("{id}")
+    @Operation(summary = "Atualizar MyEntity por ID.")
+    @APIResponse(responseCode = "200", description = "Atualizado com sucesso")
+    public Response atualizarsalvarMyEntityPorId(
+    	@PathParam("id")
+        final String id,
+    	@RequestBody(
+            required = true,
+            content = @Content(schema = @Schema(implementation = MyEntityDTO.class)))
+        @NotNull(message = "DTO não pode ser nulo.")
+        final MyEntityDTO myEntityDTO) {
+    	
+    	MyEntity entity = new MyEntity();
+		entity.field = myEntityDTO.getField();
+    	var dto = new MyEntityDTO( myEntityService.inserirMyEntity(entity));
+    	
+    	return Response.status(HttpStatus.SC_CREATED).entity(dto).build();
+    
+    }
+	*/
 }
