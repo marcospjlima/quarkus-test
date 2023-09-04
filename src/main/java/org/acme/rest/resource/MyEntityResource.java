@@ -55,7 +55,7 @@ public class MyEntityResource {
     public Response buscarMyEntityPorId(
     		@Parameter(required = true, schema = @Schema(type = SchemaType.STRING, example = "1"))
             @NotBlank(message = "Parâmetro id não pode ser nulo ou vazio.")
-            @Size(min = 1, max = 1, message = "ID deve possuir 1 caracter.")
+            @Size(min = 1, max = 10, message = "ID deve possuir até 10 caracteres.")
             @PathParam("id")
             final String id) {
     	
@@ -129,7 +129,6 @@ public class MyEntityResource {
     	var dto = new MyEntityDTO( myEntityService.inserirMyEntity(entity));
     	
     	return Response.status(HttpStatus.SC_CREATED).entity(dto).build();
-    
     }
-	*/
+    */
 }

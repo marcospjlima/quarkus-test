@@ -1,3 +1,4 @@
+/*
 package org.acme;
 
 import org.eclipse.microprofile.health.HealthCheck;
@@ -13,3 +14,4 @@ public class MyLivenessCheck implements HealthCheck {
     }
 
 }
+*/
