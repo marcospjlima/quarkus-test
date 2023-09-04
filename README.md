@@ -58,6 +58,8 @@ If you want to learn more about building native executables, please consult http
 - SmallRye OpenAPI ([guide](https://quarkus.io/guides/openapi-swaggerui)): Document your REST APIs with OpenAPI - comes with Swagger UI
 - Hibernate ORM with Panache ([guide](https://quarkus.io/guides/hibernate-orm-panache)): Simplify your persistence code for Hibernate ORM via the active record or the repository pattern
 - Cache ([guide](https://quarkus.io/guides/cache)): Enable application data caching in CDI beans
+- Jacoco ([guide](https://quarkus.io/guides/tests-with-coverage)): Enable measuring the coverage of your Tests
+
 
 ## Provided Code
 
