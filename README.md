@@ -47,6 +47,26 @@ You can then execute your native executable with: `./target/quarkus-test-1.0.0-S
 
 If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.
 
+## Creating the public and private keys
+
+First, it is necessary to generate a base key to be signed:
+
+```
+openssl genrsa -out baseKey.pem
+```
+
+From the base key generate the PKCS#8 private key:
+
+```
+openssl pkcs8 -topk8 -inform PEM -in baseKey.pem -out privateKey.pem -nocrypt
+```
+
+Using the private key you could generate a public (and distributable) key
+
+```
+openssl rsa -in baseKey.pem -pubout -outform PEM -out publicKey.pem
+```
+
 ## Related Guides
 
 - Hibernate ORM ([guide](https://quarkus.io/guides/hibernate-orm)): Define your persistent model with Hibernate ORM and Jakarta Persistence
