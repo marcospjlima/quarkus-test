@@ -4,6 +4,7 @@ import org.acme.MyEntity;
 import org.acme.paginacao.ElementosPaginados;
 import org.acme.rest.dto.MyEntityDTO;
 import org.acme.service.MyEntityService;
+import org.acme.util.TokenUtils;
 import org.apache.http.HttpStatus;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
@@ -16,6 +17,7 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.hibernate.validator.constraints.NotBlank;
 
+import io.quarkus.security.Authenticated;
 import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
@@ -38,6 +40,7 @@ import jakarta.ws.rs.core.Response;
 @Path("/myentity")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@Authenticated
 public class MyEntityResource {
 	
 	@Inject
@@ -84,7 +87,7 @@ public class MyEntityResource {
     }
     
     @DELETE
-    @RolesAllowed("User")
+    @RolesAllowed({ TokenUtils.ROLE_USER })
     @Path("{id}")
     @Operation(summary = "Excluir MyEntity pelo ID.")
     @APIResponse(responseCode = "204", description = "Excluido com sucesso")    

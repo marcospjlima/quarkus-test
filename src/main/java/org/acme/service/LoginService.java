@@ -19,7 +19,8 @@ public class LoginService {
 	@Inject
     GenerateToken generateToken;
 
-    
+	@Inject
+    TokenService tokenService;
 
     public LoginResponseDTO login(LoginDTO loginDTO) {
 
@@ -34,7 +35,9 @@ public class LoginService {
             throw new NotAuthorizedException("Erro ao realizar o login, e-mail ou senha inválido!");
         }
 
-        String token = generateToken.generateTokenJWT(user.get());
+        //String token = generateToken.generateTokenJWT(user.get());
+        
+        String token = tokenService.generate(loginDTO);
 
         loginResponseDTO.setEmail(user.get().getEmail());
         loginResponseDTO.setToken(token);
